@@ -3,7 +3,7 @@ JokenPython - Pedra, papel e tesoura - V2
 Autor: Matheus Martins
 
 V1.0 18/07/2021
-V1.2 10/02/2022
+V2 10/02/2022
 
 # Legenda:
 - pedra: 1
@@ -11,66 +11,40 @@ V1.2 10/02/2022
 - tesoura: 3
 
 """
-from random import randint
-opcao_jogo = 2
+from modules.joga import jogar
+from modules.valida import valida
+from time import sleep
 
 
-def jogar():
-    return randint(1, 3)
+def play_game():
 
-
-# Inicio do jogo
-
-while opcao_jogo == 2:
+    print(100 * '\n')
     print('Seja bem vindo ao JokenPython!\n')
-
-    user = int(input('Escolha:\n 1 - Para PEDRA; \n 2 - Para PAPEL; \n 3 - Para TESOURA \n >> '))
+    user = int(input('Escolha:\n 1 - Para PEDRA; \n 2 - Para PAPEL; \n 3 - Para TESOURA \n >> '))    
     comp = jogar()
 
     # Verificar se a opção do usuário é válida
     if user not in range(1, 4):
-        print('Valor do usuário inválido.')
-        break
+        print('Valor não listado!')
+        sleep(2)
+        play_game()
+    
+    resultado = valida(user, comp)
+    print(resultado)
 
-    # --------------- Fim da Verificalção --------------
-
-    # No caso de 'pedra'
-    if user == 1 and comp == 1:
-        print('Empate! Ambos escolheram pedra.')
-
-    elif user == 1 and comp == 2:
-        print('Você infelizmente perdeu. O computador jogou papel.')
-
-    elif user == 1 and comp == 3:
-        print('Parabéns, você venceu! O computador escolheu a tesoura!')
-
-    # -----------------------------
-
-    # No caso de 'papel'
-    elif user == 2 and comp == 2:
-        print('Empate! Ambos escolheram papel!')
-
-    elif user == 2 and comp == 3:
-        print('Você infelizmente perdeu. O computador jogou tesoura.')
-
-    elif user == 2 and comp == 1:
-        print('Parabéns, você venceu! O computador escolheu pedra!')
-
-    # -----------------------------
-
-    # No caso de 'tesoura'
-    elif user == 3 and comp == 3:
-        print('Empate! Ambos escolheram tesoura!')
-
-    elif user == 3 and comp == 1:
-        print('Você infelizmente perdeu. O computador jogou pedra.')
-
-    elif user == 3 and comp == 2:
-        print('Parabéns, você venceu! O computador jogou papel.')
-
+    if play_again():
+        play_game()
     else:
-        print('Algo deu errado, pedimos desculpas.')
+        print('Obriado por jogar JokenPython!')
+        sleep(2)
+        return
 
-    opcao_jogo = int(input('\nDigite 2 para jogar novamente ou qualquer tecla para sair. \n >> '))
-    if opcao_jogo != 2:
-        print('Obrigado por jogar JokenPython, volte sempre!')
+
+def play_again():
+    play = int(input('Digite 2 para jogar novamente ou qualquer tecla para sair: '))
+    if play == 2:
+        return True 
+    return False
+
+if __name__ == '__main__':
+    play_game()
